@@ -1,33 +1,32 @@
-import { createConfig, configureChains, mainnet } from "wagmi";
-import { publicProvider } from "wagmi/providers/public";
-import { WagmiWeb3ConfigProvider } from "@ant-design/web3-wagmi";
-import { MetaMaskConnector } from "wagmi/connectors/metaMask";
-import { Connector, ConnectButton } from "@ant-design/web3";
-
-const { publicClient, chains } = configureChains([mainnet], [publicProvider()]);
+import { createConfig, http } from "wagmi";
+import { mainnet } from "wagmi/chains";
+import { WagmiWeb3ConfigProvider, MetaMask } from "@ant-design/web3-wagmi";
+import { Address, NFTCard, Connector, ConnectButton } from "@ant-design/web3";
+import { injected } from "wagmi/connectors";
 
 const config = createConfig({
-  publicClient,
+  chains: [mainnet],
+  transports: {
+    [mainnet.id]: http(),
+  },
   connectors: [
-    new MetaMaskConnector({
-      chains,
+    injected({
+      target: "metaMask",
     }),
   ],
 });
 
 export default () => {
   return (
-    <WagmiWeb3ConfigProvider config={config}>
-      <div
-        style={{
-          height: "100vh",
-          padding: 64,
-        }}
-      >
-        <Connector>
-          <ConnectButton />
-        </Connector>
-      </div>
+    <WagmiWeb3ConfigProvider config={config} wallets={[MetaMask()]}>
+      <Address format address="0xEcd0D12E21805803f70de03B72B1C162dB0898d9" />
+      <NFTCard
+        address="0x79fcdef22feed20eddacbb2587640e45491b757f"
+        tokenId={8540}
+      />
+      <Connector>
+        <ConnectButton />
+      </Connector>
     </WagmiWeb3ConfigProvider>
   );
 };
