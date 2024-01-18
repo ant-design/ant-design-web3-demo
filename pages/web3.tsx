@@ -1,8 +1,10 @@
-import { createConfig, http, useReadContract } from "wagmi";
+import { createConfig, http, useReadContract, useWriteContract } from "wagmi";
 import { mainnet } from "wagmi/chains";
 import { WagmiWeb3ConfigProvider, MetaMask } from "@ant-design/web3-wagmi";
 import { Address, NFTCard, Connector, ConnectButton } from "@ant-design/web3";
 import { injected } from "wagmi/connectors";
+import { Button, message } from "antd";
+import { parseEther } from "viem";
 
 const config = createConfig({
   chains: [mainnet],
@@ -18,20 +20,63 @@ const config = createConfig({
 
 const CallTest = () => {
   const result = useReadContract({
-    abi: [{
-      type: 'function',
-      name: 'totalSupply',
-      stateMutability: 'view',
-      inputs: [],
-      outputs: [{ name: 'supply', type: 'uint256' }]
-    }],
-    address: '0xEcd0D12E21805803f70de03B72B1C162dB0898d9',
-    functionName: 'totalSupply',
+    abi: [
+      {
+        type: "function",
+        name: "totalSupply",
+        stateMutability: "view",
+        inputs: [],
+        outputs: [{ name: "supply", type: "uint256" }],
+      },
+    ],
+    address: "0xEcd0D12E21805803f70de03B72B1C162dB0898d9",
+    functionName: "totalSupply",
   });
+  const { writeContract } = useWriteContract();
+
   return (
-    <div>{result.data?.toString()}</div>
+    <div>
+      {result.data?.toString()}
+      <Button
+        onClick={() => {
+          writeContract(
+            {
+              abi: [
+                {
+                  type: "function",
+                  name: "mint",
+                  stateMutability: "payable",
+                  inputs: [
+                    {
+                      internalType: "uint256",
+                      name: "quantity",
+                      type: "uint256",
+                    },
+                  ],
+                  outputs: [],
+                },
+              ],
+              address: "0xEcd0D12E21805803f70de03B72B1C162dB0898d9",
+              functionName: "mint",
+              args: [1],
+              value: parseEther("0.01"),
+            },
+            {
+              onSuccess: () => {
+                message.success("Mint Success");
+              },
+              onError: (err) => {
+                message.error(err.message);
+              },
+            }
+          );
+        }}
+      >
+        mint
+      </Button>
+    </div>
   );
-}
+};
 
 export default () => {
   return (
