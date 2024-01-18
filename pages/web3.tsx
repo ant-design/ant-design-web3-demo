@@ -1,4 +1,4 @@
-import { createConfig, http } from "wagmi";
+import { createConfig, http, useReadContract } from "wagmi";
 import { mainnet } from "wagmi/chains";
 import { WagmiWeb3ConfigProvider, MetaMask } from "@ant-design/web3-wagmi";
 import { Address, NFTCard, Connector, ConnectButton } from "@ant-design/web3";
@@ -16,6 +16,23 @@ const config = createConfig({
   ],
 });
 
+const CallTest = () => {
+  const result = useReadContract({
+    abi: [{
+      type: 'function',
+      name: 'totalSupply',
+      stateMutability: 'view',
+      inputs: [],
+      outputs: [{ name: 'supply', type: 'uint256' }]
+    }],
+    address: '0xEcd0D12E21805803f70de03B72B1C162dB0898d9',
+    functionName: 'totalSupply',
+  });
+  return (
+    <div>{result.data?.toString()}</div>
+  );
+}
+
 export default () => {
   return (
     <WagmiWeb3ConfigProvider config={config} wallets={[MetaMask()]}>
@@ -27,6 +44,7 @@ export default () => {
       <Connector>
         <ConnectButton />
       </Connector>
+      <CallTest />
     </WagmiWeb3ConfigProvider>
   );
 };
