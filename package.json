@@ -9,7 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@ant-design/web3": "^1.3.2",
+    "@ant-design/web3": "^1.4.2",
     "@ant-design/web3-wagmi": "^2.1.1",
     "antd": "^5.12.5",
     "next": "14.0.4",
