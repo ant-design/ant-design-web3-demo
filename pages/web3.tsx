@@ -17,6 +17,7 @@ import {
   Connector,
   ConnectButton,
   useAccount,
+  useProvider,
 } from "@ant-design/web3";
 import { injected } from "wagmi/connectors";
 import { Button, message } from "antd";
@@ -41,7 +42,9 @@ const config = createConfig({
 
 const CallTest = () => {
   const config = useConfig();
+  const provider = useProvider();
   console.log("get config", config);
+  console.log("get provider", provider);
   const { account } = useAccount();
   const result = useReadContract({
     abi: [
