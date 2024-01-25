@@ -9,13 +9,13 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@ant-design/web3": "^1.4.2",
-    "@ant-design/web3-wagmi": "^2.1.1",
+    "@ant-design/web3": "^1.4.3",
+    "@ant-design/web3-wagmi": "^2.2.2",
     "antd": "^5.12.5",
     "next": "14.0.4",
     "react": "^18",
     "react-dom": "^18",
-    "wagmi": "^2.0.0",
+    "wagmi": "^2.5.2",
     "viem": "^2.0.0"
   },
   "devDependencies": {
