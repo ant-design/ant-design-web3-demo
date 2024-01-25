@@ -19,8 +19,12 @@ import { parseEther } from "viem";
 const config = createConfig({
   chains: [mainnet, goerli],
   transports: {
-    [mainnet.id]: http(),
-    [goerli.id]: http(),
+    [mainnet.id]: http(
+      "https://api.zan.top/node/v1/eth/mainnet/7f039b4a093940a8bb5d2f76cca81e45"
+    ),
+    [goerli.id]: http(
+      "https://api.zan.top/node/v1/eth/goerli/7f039b4a093940a8bb5d2f76cca81e45"
+    ),
   },
   connectors: [
     injected({
