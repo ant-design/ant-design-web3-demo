@@ -1,4 +1,10 @@
-import { createConfig, http, useReadContract, useWriteContract } from "wagmi";
+import {
+  createConfig,
+  http,
+  useConfig,
+  useReadContract,
+  useWriteContract,
+} from "wagmi";
 import { mainnet, goerli } from "wagmi/chains";
 import {
   WagmiWeb3ConfigProvider,
@@ -34,6 +40,8 @@ const config = createConfig({
 });
 
 const CallTest = () => {
+  const config = useConfig();
+  console.log("get config", config);
   const { account } = useAccount();
   const result = useReadContract({
     abi: [
