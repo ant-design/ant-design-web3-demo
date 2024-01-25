@@ -92,7 +92,7 @@ const CallTest = () => {
   );
 };
 
-export default () => {
+export default function Web3() {
   return (
     <WagmiWeb3ConfigProvider
       config={config}
@@ -110,4 +110,4 @@ export default () => {
       <CallTest />
     </WagmiWeb3ConfigProvider>
   );
-};
+}
