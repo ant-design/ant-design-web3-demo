@@ -15,6 +15,9 @@ import {
 import { injected } from "wagmi/connectors";
 import { Button, message } from "antd";
 import { parseEther } from "viem";
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+
+const queryClient = new QueryClient();
 
 const config = createConfig({
   chains: [mainnet, goerli],
@@ -98,20 +101,22 @@ const CallTest = () => {
 
 export default function Web3() {
   return (
-    <WagmiWeb3ConfigProvider
-      config={config}
-      chains={[Goerli]}
-      wallets={[MetaMask()]}
-    >
-      <Address format address="0xEcd0D12E21805803f70de03B72B1C162dB0898d9" />
-      <NFTCard
-        address="0xEcd0D12E21805803f70de03B72B1C162dB0898d9"
-        tokenId={641}
-      />
-      <Connector>
-        <ConnectButton />
-      </Connector>
-      <CallTest />
-    </WagmiWeb3ConfigProvider>
+    <QueryClientProvider client={queryClient}>
+      <WagmiWeb3ConfigProvider
+        config={config}
+        chains={[Goerli]}
+        wallets={[MetaMask()]}
+      >
+        <Address format address="0xEcd0D12E21805803f70de03B72B1C162dB0898d9" />
+        <NFTCard
+          address="0xEcd0D12E21805803f70de03B72B1C162dB0898d9"
+          tokenId={641}
+        />
+        <Connector>
+          <ConnectButton />
+        </Connector>
+        <CallTest />
+      </WagmiWeb3ConfigProvider>
+    </QueryClientProvider>
   );
 }
