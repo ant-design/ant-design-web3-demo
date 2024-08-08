@@ -41,7 +41,7 @@ const config = createConfig({
 });
 
 // Sepolia test contract 0x81BaD6F768947D7741c83d9EB9007e1569115703
-const CONTRACT_ADDRESS = "0x81BaD6F768947D7741c83d9EB9007e1569115703";
+const CONTRACT_ADDRESS = "0xEcd0D12E21805803f70de03B72B1C162dB0898d9";
 
 const CallTest = () => {
   const { account } = useAccount();
@@ -121,8 +121,11 @@ export default function Web3() {
       chains={[Sepolia]}
       wallets={[MetaMask()]}
     >
-      <Address format address={CONTRACT_ADDRESS} />
-      <NFTCard address={CONTRACT_ADDRESS} tokenId={641} />
+      <Address format address="0xEcd0D12E21805803f70de03B72B1C162dB0898d9" />
+      <NFTCard
+        address="0xEcd0D12E21805803f70de03B72B1C162dB0898d9"
+        tokenId={641}
+      />
       <Connector>
         <ConnectButton />
       </Connector>
