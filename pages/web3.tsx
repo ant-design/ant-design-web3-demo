@@ -6,7 +6,6 @@ import {
   useWaitForTransactionReceipt,
 } from "wagmi";
 import { mainnet, sepolia } from "wagmi/chains";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import {
   WagmiWeb3ConfigProvider,
   MetaMask,
@@ -40,8 +39,6 @@ const config = createConfig({
     }),
   ],
 });
-
-const queryClient = new QueryClient();
 
 // Sepolia test contract 0x81BaD6F768947D7741c83d9EB9007e1569115703
 const CONTRACT_ADDRESS = "0x81BaD6F768947D7741c83d9EB9007e1569115703";
@@ -124,14 +121,12 @@ export default function Web3() {
       chains={[Sepolia]}
       wallets={[MetaMask()]}
     >
-      <QueryClientProvider client={queryClient}>
-        <Address format address={CONTRACT_ADDRESS} />
-        <NFTCard address={CONTRACT_ADDRESS} tokenId={641} />
-        <Connector>
-          <ConnectButton />
-        </Connector>
-        <CallTest />
-      </QueryClientProvider>
+      <Address format address={CONTRACT_ADDRESS} />
+      <NFTCard address={CONTRACT_ADDRESS} tokenId={641} />
+      <Connector>
+        <ConnectButton />
+      </Connector>
+      <CallTest />
     </WagmiWeb3ConfigProvider>
   );
 }
