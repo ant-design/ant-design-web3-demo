@@ -96,7 +96,7 @@ const CallTest = () => {
               ],
               address: CONTRACT_ADDRESS,
               functionName: "mint",
-              args: [1n],
+              args: [BigInt(1)],
               value: parseEther("0.01"),
             },
             {
