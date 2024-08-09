@@ -1,9 +1,15 @@
-import { createConfig, http, useReadContract, useWriteContract } from "wagmi";
-import { mainnet, goerli } from "wagmi/chains";
+import {
+  createConfig,
+  http,
+  useReadContract,
+  useWriteContract,
+  useWaitForTransactionReceipt,
+} from "wagmi";
+import { mainnet, sepolia } from "wagmi/chains";
 import {
   WagmiWeb3ConfigProvider,
   MetaMask,
-  Goerli,
+  Sepolia,
 } from "@ant-design/web3-wagmi";
 import {
   Address,
@@ -13,17 +19,18 @@ import {
   useAccount,
 } from "@ant-design/web3";
 import { injected } from "wagmi/connectors";
-import { Button, message } from "antd";
+import { Button, message, Spin, Flex } from "antd";
 import { parseEther } from "viem";
+import { useEffect } from "react";
 
 const config = createConfig({
-  chains: [mainnet, goerli],
+  chains: [mainnet, sepolia],
   transports: {
     [mainnet.id]: http(
       "https://api.zan.top/node/v1/eth/mainnet/7f039b4a093940a8bb5d2f76cca81e45"
     ),
-    [goerli.id]: http(
-      "https://api.zan.top/node/v1/eth/goerli/7f039b4a093940a8bb5d2f76cca81e45"
+    [sepolia.id]: http(
+      "https://api.zan.top/node/v1/eth/sepolia/7f039b4a093940a8bb5d2f76cca81e45"
     ),
   },
   connectors: [
@@ -32,6 +39,9 @@ const config = createConfig({
     }),
   ],
 });
+
+// Sepolia test contract 0x81BaD6F768947D7741c83d9EB9007e1569115703
+const CONTRACT_ADDRESS = "0xEcd0D12E21805803f70de03B72B1C162dB0898d9";
 
 const CallTest = () => {
   const { account } = useAccount();
@@ -45,15 +55,25 @@ const CallTest = () => {
         outputs: [{ type: "uint256" }],
       },
     ],
-    // Goerli test contract 0x418325c3979b7f8a17678ec2463a74355bdbe72c
-    address: "0xEcd0D12E21805803f70de03B72B1C162dB0898d9",
+    address: CONTRACT_ADDRESS,
     functionName: "balanceOf",
     args: [account?.address as `0x${string}`],
   });
-  const { writeContract } = useWriteContract();
+  const { data: hash, writeContract } = useWriteContract();
+  const { isLoading: isConfirming, isSuccess: isConfirmed } =
+    useWaitForTransactionReceipt({
+      hash,
+    });
+
+  useEffect(() => {
+    if (isConfirmed) {
+      message.success("Mint Success");
+      result.refetch();
+    }
+  }, [isConfirmed]);
 
   return (
-    <div>
+    <Flex gap={12} align="center">
       {result.data?.toString()}
       <Button
         onClick={() => {
@@ -74,15 +94,12 @@ const CallTest = () => {
                   outputs: [],
                 },
               ],
-              address: "0xEcd0D12E21805803f70de03B72B1C162dB0898d9",
+              address: CONTRACT_ADDRESS,
               functionName: "mint",
-              args: [1],
+              args: [BigInt(1)],
               value: parseEther("0.01"),
             },
             {
-              onSuccess: () => {
-                message.success("Mint Success");
-              },
               onError: (err) => {
                 message.error(err.message);
               },
@@ -92,7 +109,8 @@ const CallTest = () => {
       >
         mint
       </Button>
-    </div>
+      <Spin spinning={isConfirming} fullscreen />
+    </Flex>
   );
 };
 
@@ -100,7 +118,7 @@ export default function Web3() {
   return (
     <WagmiWeb3ConfigProvider
       config={config}
-      chains={[Goerli]}
+      chains={[Sepolia]}
       wallets={[MetaMask()]}
     >
       <Address format address="0xEcd0D12E21805803f70de03B72B1C162dB0898d9" />
