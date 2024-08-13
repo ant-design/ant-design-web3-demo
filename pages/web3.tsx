@@ -19,7 +19,7 @@ import {
   useAccount,
 } from "@ant-design/web3";
 import { injected } from "wagmi/connectors";
-import { Button, message, Spin, Flex } from "antd";
+import { Button, message, Flex } from "antd";
 import { parseEther } from "viem";
 import { useEffect } from "react";
 
@@ -76,6 +76,7 @@ const CallTest = () => {
     <Flex gap={12} align="center">
       {result.data?.toString()}
       <Button
+        loading={isConfirming}
         onClick={() => {
           writeContract(
             {
@@ -109,7 +110,6 @@ const CallTest = () => {
       >
         mint
       </Button>
-      <Spin spinning={isConfirming} fullscreen />
     </Flex>
   );
 };
