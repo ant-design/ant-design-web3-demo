@@ -1,14 +1,13 @@
 import {
-  createConfig,
   http,
   useReadContract,
   useWriteContract,
   useWaitForTransactionReceipt,
 } from "wagmi";
-import { mainnet, sepolia } from "wagmi/chains";
 import {
   WagmiWeb3ConfigProvider,
   MetaMask,
+  Mainnet,
   Sepolia,
 } from "@ant-design/web3-wagmi";
 import {
@@ -18,27 +17,9 @@ import {
   ConnectButton,
   useAccount,
 } from "@ant-design/web3";
-import { injected } from "wagmi/connectors";
 import { Button, message, Flex } from "antd";
 import { parseEther } from "viem";
 import { useEffect } from "react";
-
-const config = createConfig({
-  chains: [mainnet, sepolia],
-  transports: {
-    [mainnet.id]: http(
-      "https://api.zan.top/node/v1/eth/mainnet/7f039b4a093940a8bb5d2f76cca81e45"
-    ),
-    [sepolia.id]: http(
-      "https://api.zan.top/node/v1/eth/sepolia/7f039b4a093940a8bb5d2f76cca81e45"
-    ),
-  },
-  connectors: [
-    injected({
-      target: "metaMask",
-    }),
-  ],
-});
 
 // Sepolia test contract 0x81BaD6F768947D7741c83d9EB9007e1569115703
 const CONTRACT_ADDRESS = "0xEcd0D12E21805803f70de03B72B1C162dB0898d9";
@@ -117,9 +98,19 @@ const CallTest = () => {
 export default function Web3() {
   return (
     <WagmiWeb3ConfigProvider
-      config={config}
-      chains={[Sepolia]}
+      chains={[Mainnet, Sepolia]}
       wallets={[MetaMask()]}
+      eip6963={{
+        autoAddInjectedWallets: true,
+      }}
+      transports={{
+        [Mainnet.id]: http(
+          "https://api.zan.top/node/v1/eth/mainnet/7f039b4a093940a8bb5d2f76cca81e45"
+        ),
+        [Sepolia.id]: http(
+          "https://api.zan.top/node/v1/eth/sepolia/7f039b4a093940a8bb5d2f76cca81e45"
+        ),
+      }}
     >
       <Address format address="0xEcd0D12E21805803f70de03B72B1C162dB0898d9" />
       <NFTCard

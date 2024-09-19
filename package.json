@@ -9,8 +9,8 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@ant-design/web3": "^1.16.0",
-    "@ant-design/web3-wagmi": "^2.7.1",
+    "@ant-design/web3": "^1.17.0",
+    "@ant-design/web3-wagmi": "^2.9.0",
     "antd": "^5.12.5",
     "next": "14.0.4",
     "react": "^18",
