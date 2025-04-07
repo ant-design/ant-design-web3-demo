@@ -9,14 +9,14 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@ant-design/web3": "^1.17.0",
-    "@ant-design/web3-wagmi": "^2.9.0",
-    "antd": "^5.12.5",
+    "@ant-design/web3": "^1.22.0",
+    "@ant-design/web3-wagmi": "^2.10.2",
+    "antd": "^5.24.6",
     "next": "14.0.4",
     "react": "^18",
     "react-dom": "^18",
-    "wagmi": "^2.5.2",
-    "viem": "^2.0.0"
+    "wagmi": "^2.14.16",
+    "viem": "^2.26.0"
   },
   "devDependencies": {
     "@types/node": "^20",
@@ -25,5 +25,6 @@
     "eslint": "^8",
     "eslint-config-next": "14.0.4",
     "typescript": "^5"
-  }
+  },
+  "packageManager": "pnpm@8.14.0+sha1.bb42032ff80dba5f9245bc1b03470d2fa0b7fb2f"
 }
